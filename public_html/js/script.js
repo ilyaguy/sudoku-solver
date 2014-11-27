@@ -17,9 +17,9 @@ Solver.prototype.solve = function (data) {
     this.data = data;
     console.table(this.data);
     var tempData = [];
-    for (var x = 0; x < 8; x++) {
+    for (var x = 0; x <= 8; x++) {
         tempData[x] = [];
-        for (var y = 0; y < 8; y++) {
+        for (var y = 0; y <= 8; y++) {
             tempData[x][y] = this.preparePossible(x, y);
         }
     }
@@ -43,6 +43,7 @@ Solver.prototype.preparePossible = function (x, y) {
     for (p = 1; p < 10; p++) {
         currentArray[p] = this.checkSquare(x, y, p);
     }
+    currentArray = currentArray.filter(function(e){return e!=0});
     return currentArray;
 };
 
