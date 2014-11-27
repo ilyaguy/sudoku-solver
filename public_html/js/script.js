@@ -56,10 +56,14 @@ Solver.prototype.preparePossible = function (x, y) {
  */
 Solver.prototype.checkSquare = function (x, y, p) {
     // 0, 3, 6
-    for (i = x % 3; i < x % 3 + 3; i++)
-        for (j = y % 3; j < y % 3 + 3; j++)
-            if (this.data[x][y] == p)
+    var sx = x-x%3, ex = sx+3, sy = y-y%3, ey = sy+3;
+    for (i = sx; i < ex; i++) {
+        for (j = sy; j < ey; j++) {
+            if (this.data[i][j] == p) {
                 return 0;
+            }
+        }
+    }
     return p;
 };
 
