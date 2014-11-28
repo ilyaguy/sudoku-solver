@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Sudoku puzzle solver</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
@@ -26,10 +26,15 @@ and open the template in the editor.
                 [1,0,7,0,0,0,0,4,3]
             ];
             solver = new Solver();
+            document.write('<h2>Original Puzzle</h2>');
             document.write(solver.prettyPrint(puzzle));
+            var step = 0;
             do {
-                puzzle = solver.solve(puzzle);
+            puzzle = solver.solve(puzzle);
+            document.write('<h3>Step ' + (++step) + '</h3>');
+                document.write(solver.prettyPrint(puzzle));
             } while (solver.flag == true);
+            document.write('<h3>Final</h3>');
             document.write(solver.prettyPrint(puzzle));
         </script>
     </body>
