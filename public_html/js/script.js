@@ -144,7 +144,7 @@ Solver.prototype.merge = function (a, b, c) {
 
 Solver.prototype.prettyPrint = function (data) {
     var res = '<table style="border: 1px solid black; margin-top: 15px;">';
-    var cellStyleDefault = 'border: 1px dotted grey;';
+    var cellStyleDefault = 'text-align: center; width: 60px; border: 1px dotted grey;';
     var cellStyleRow = 'border-bottom: 2px solid black;';
     var cellStyleColumn = 'border-right: 2px solid black;';
     for (var i = 0; i <= 8; i++) {
@@ -157,7 +157,7 @@ Solver.prototype.prettyPrint = function (data) {
                 optag = '<b>';
                 cltag = '</b>';
             }
-            res += '<td style="text-align: center; width: 60px; border: 1px dotted grey; ' + rclass + cclass + '">'
+            res += '<td style="' + cellStyleDefault + rclass + cclass + '">'
                     + optag + data[i][j] + cltag + '</td>';
         }
         res += '</tr>';
