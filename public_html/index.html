@@ -26,16 +26,13 @@ and open the template in the editor.
                 [1,0,7,0,0,0,0,4,3]
             ];
             solver = new Solver();
+            solver.data = puzzle;
             document.write('<h2>Original Puzzle</h2>');
             document.write(solver.prettyPrint(puzzle));
-            var step = 0;
-            do {
-            puzzle = solver.solve(puzzle);
-            document.write('<h3>Step ' + (++step) + '</h3>');
-                document.write(solver.prettyPrint(puzzle));
-            } while (solver.flag == true);
+            v = solver.solve(puzzle);
             document.write('<h2>Final</h2>');
-            document.write(solver.prettyPrint(puzzle));
+            solver.data = puzzle;
+            document.write(solver.prettyPrint(v));
         </script>
     </body>
 </html>
