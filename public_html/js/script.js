@@ -32,6 +32,18 @@ Solver.prototype.solve = function (data) {
             for (var y = 0; y <= 8; y++) {
                 if (typeof this.tempData[x][y] == 'object' && this.tempData[x][y].length > 1) {
                     for (var t = 0; t < this.tempData[x][y].length; t++) {
+                        if (this.checkUniqueRow(x, y, this.tempData[x][y][t]) == 1) {
+                            this.tempData[x][y] = this.tempData[x][y][t];
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (var x = 0; x <= 8; x++) {
+            for (var y = 0; y <= 8; y++) {
+                if (typeof this.tempData[x][y] == 'object' && this.tempData[x][y].length > 1) {
+                    for (var t = 0; t < this.tempData[x][y].length; t++) {
                         if (this.checkUnique(x, y, this.tempData[x][y][t]) == 1) {
                             this.tempData[x][y] = this.tempData[x][y][t];
                         }
@@ -40,7 +52,6 @@ Solver.prototype.solve = function (data) {
             }
         }
 
-        console.table(this.tempData);
         this.data = this.tempData;
     } while (this.flag == true);
     return this.tempData;
@@ -123,10 +134,10 @@ Solver.prototype.checkRow = function (x, y, p) {
 /**
  * Check current column.
  *
- * @param {type} x
- * @param {type} y
- * @param {type} p
- * @returns {integer}
+ * @param {integer} x
+ * @param {integer} y
+ * @param {integer} p
+ * @returns {Number}
  */
 Solver.prototype.checkColumn = function (x, y, p) {
     for (var i = 0; i <= 8; i++) {
@@ -137,14 +148,28 @@ Solver.prototype.checkColumn = function (x, y, p) {
     return p;
 };
 
+/**
+ * Return value if all params are the same, else return zero.
+ *
+ * @param {Number} a
+ * @param {Number} b
+ * @param {Number} c
+ * @returns {Number}
+ */
 Solver.prototype.merge = function (a, b, c) {
     //return [a,b,c];
     return ((a == b) && (a == c)) ? a : 0;
 };
 
+/**
+ * Print data as table.
+ *
+ * @param {Array} data
+ * @returns {String}
+ */
 Solver.prototype.prettyPrint = function (data) {
-    var res = '<table style="border: 1px solid black; margin-top: 15px;">';
-    var cellStyleDefault = 'text-align: center; width: 60px; border: 1px dotted grey;';
+    var res = '<table style="border: 1px solid gray; margin-top: 15px;">';
+    var cellStyleDefault = 'text-align: center; width: 60px; border: 1px dotted #c0c0c0;';
     var cellStyleRow = 'border-bottom: 2px solid black;';
     var cellStyleColumn = 'border-right: 2px solid black;';
     for (var i = 0; i <= 8; i++) {
@@ -171,9 +196,15 @@ Solver.prototype.prettyPrint = function (data) {
     return res;
 };
 
+/**
+ * Check unique value in current square.
+ *
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} v
+ * @returns {Number}
+ */
 Solver.prototype.checkUnique = function (x, y, v) {
-    // check unique value in current square
-    // 0, 3, 6
     var sx = x - x % 3, ex = sx + 3, sy = y - y % 3, ey = sy + 3;
     var counter = 0;
     for (var i = sx; i < ex; i++) {
@@ -190,4 +221,28 @@ Solver.prototype.checkUnique = function (x, y, v) {
         }
     }
     return counter;
-}
+};
+
+/**
+ * Check unique value in current row.
+ *
+ * @param {Number} x
+ * @param {Number} y
+ * @param {Number} v
+ * @returns {Number}
+ */
+Solver.prototype.checkUniqueRow = function (x, y, v) {
+    var counter = 0;
+    for (var j = 0; j < 9; j++) {
+        if (typeof this.tempData[x][j] == 'object') {
+            if (this.tempData[x][j].indexOf(v) != -1) {
+                counter++;
+            }
+        } else {
+            if (this.tempData[x][j] == v) {
+                counter++;
+            }
+        }
+    }
+    return counter;
+};
