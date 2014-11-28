@@ -154,8 +154,13 @@ Solver.prototype.prettyPrint = function (data) {
             var cclass = (j % 3 == 2) ? cellStyleColumn : '';
             var optag = '', cltag = '';
             if (data[i][j] != this.data[i][j]) {
-                optag = '<b>';
-                cltag = '</b>';
+                if (data[i][j].length > 1) {
+                    optag = '<span style="font-size: 0.75em;">';
+                    cltag = '</span>';
+                } else {
+                    optag = '<b>';
+                    cltag = '</b>';
+                }
             }
             res += '<td style="' + cellStyleDefault + rclass + cclass + '">'
                     + optag + data[i][j] + cltag + '</td>';
