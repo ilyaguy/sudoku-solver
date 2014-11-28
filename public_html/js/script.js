@@ -27,8 +27,7 @@ Solver.prototype.solve = function (data) {
                     p = p[0];
                     this.flag = true;
                 } else {
-                    console.log(p);
-                    p = p.join();
+                    p = p.join('');
                 }
             }
             tempData[x][y] = p;
@@ -48,7 +47,7 @@ Solver.prototype.solve = function (data) {
  * @returns {integer|Array}
  */
 Solver.prototype.preparePossible = function (x, y) {
-    var currentValue = parseInt(this.data[x][y], 10);
+    var currentValue = (typeof this.data[x][y] == 'string') ? 0 : this.data[x][y];
     if (currentValue != 0) {
         return currentValue;
     }
@@ -123,4 +122,17 @@ Solver.prototype.checkColumn = function (x, y, p) {
 Solver.prototype.merge = function (a, b, c) {
     //return [a,b,c];
     return ((a == b) && (a == c)) ? a : 0;
+};
+
+Solver.prototype.prettyPrint = function (data) {
+    var res = '<table style="border: 1px solid cyan;">';
+    for (i = 0; i <= 8; i++) {
+        res += '<tr>';
+        for (j = 0; j <= 8; j++) {
+            res += '<td style="border: 1px dotted grey;">' + data[i][j] + '</td>';
+        }
+        res += '</tr>';
+    }
+    res += '</table>';
+    return res;
 };
