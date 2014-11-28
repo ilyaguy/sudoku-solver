@@ -27,6 +27,7 @@ Solver.prototype.solve = function (data) {
                     p = p[0];
                     this.flag = true;
                 } else {
+                    console.log(p);
                     p = p.join();
                 }
             }
@@ -34,6 +35,7 @@ Solver.prototype.solve = function (data) {
         }
     }
     console.table(tempData);
+    console.log(this.flag);
     return tempData;
 };
 
@@ -46,7 +48,7 @@ Solver.prototype.solve = function (data) {
  * @returns {integer|Array}
  */
 Solver.prototype.preparePossible = function (x, y) {
-    var currentValue = this.data[x][y];
+    var currentValue = parseInt(this.data[x][y], 10);
     if (currentValue != 0) {
         return currentValue;
     }
