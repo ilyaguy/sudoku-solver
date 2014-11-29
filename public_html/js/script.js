@@ -30,19 +30,7 @@ Solver.prototype.solve = function (data) {
 
         for (var x = 0; x <= 8; x++) {
             for (var y = 0; y <= 8; y++) {
-                if (typeof this.tempData[x][y] == 'object' && this.tempData[x][y].length > 1) {
-                    for (var t = 0; t < this.tempData[x][y].length; t++) {
-                        if (this.checkUniqueRow(x, y, this.tempData[x][y][t]) == 1) {
-                            this.tempData[x][y] = this.tempData[x][y][t];
-                        }
-                    }
-                }
-            }
-        }
-        
-        for (var x = 0; x <= 8; x++) {
-            for (var y = 0; y <= 8; y++) {
-                if (typeof this.tempData[x][y] == 'object' && this.tempData[x][y].length > 1) {
+                if (this.tempData[x][y].length > 1) {
                     for (var t = 0; t < this.tempData[x][y].length; t++) {
                         if (this.checkUnique(x, y, this.tempData[x][y][t]) == 1) {
                             this.tempData[x][y] = this.tempData[x][y][t];
@@ -177,14 +165,14 @@ Solver.prototype.prettyPrint = function (data) {
         var rclass = (i % 3 == 2) ? cellStyleRow : '';
         for (var j = 0; j <= 8; j++) {
             var cclass = (j % 3 == 2) ? cellStyleColumn : '';
-            var optag = '', cltag = '';
+            var optag = '<b>', cltag = '</b>';
             if (data[i][j] != this.data[i][j]) {
                 if (data[i][j].length > 1) {
                     optag = '<span style="font-size: 0.75em;">';
                     cltag = '</span>';
                 } else {
-                    optag = '<b>';
-                    cltag = '</b>';
+                    optag = '';
+                    cltag = '';
                 }
             }
             res += '<td style="' + cellStyleDefault + rclass + cclass + '">'
@@ -205,44 +193,59 @@ Solver.prototype.prettyPrint = function (data) {
  * @returns {Number}
  */
 Solver.prototype.checkUnique = function (x, y, v) {
+    // Check for quadrant.
     var sx = x - x % 3, ex = sx + 3, sy = y - y % 3, ey = sy + 3;
-    var counter = 0;
+    var counterQ = 0;
     for (var i = sx; i < ex; i++) {
         for (var j = sy; j < ey; j++) {
             if (typeof this.tempData[i][j] == 'object') {
                 if (this.tempData[i][j].indexOf(v) != -1) {
-                    counter++;
+                    counterQ++;
                 }
             } else {
                 if (this.tempData[i][j] == v) {
-                    counter++;
+                    counterQ++;
                 }
             }
         }
     }
-    return counter;
-};
 
-/**
- * Check unique value in current row.
- *
- * @param {Number} x
- * @param {Number} y
- * @param {Number} v
- * @returns {Number}
- */
-Solver.prototype.checkUniqueRow = function (x, y, v) {
-    var counter = 0;
-    for (var j = 0; j < 9; j++) {
-        if (typeof this.tempData[x][j] == 'object') {
-            if (this.tempData[x][j].indexOf(v) != -1) {
-                counter++;
+    if (1 == counterQ) {
+        return counterQ;
+    }
+    
+    // Check for row and column.
+    var counterR = 0, counterC = 0;
+    for (var i = 0; i < 9; i++) {
+        // check row
+        if (typeof this.tempData[x][i] == 'object') {
+            if (this.tempData[x][i].indexOf(v) != -1) {
+                counterR++;
             }
         } else {
-            if (this.tempData[x][j] == v) {
-                counter++;
+            if (this.tempData[x][i] == v) {
+                counterR++;
+            }
+        }
+        // check column.
+        if (typeof this.tempData[i][y] == 'object') {
+            if (this.tempData[i][y].indexOf(v) != -1) {
+                counterC++;
+            }
+        } else {
+            if (this.tempData[i][y] == v) {
+                counterC++;
             }
         }
     }
-    return counter;
+
+    if (1 == counterR) {
+        return counterR;
+    }
+
+    if (1 == counterC) {
+        return counterC;
+    }
+
+    return 0;
 };
