@@ -165,16 +165,22 @@ Solver.prototype.prettyPrint = function (data) {
         var rclass = (i % 3 == 2) ? cellStyleRow : '';
         for (var j = 0; j <= 8; j++) {
             var cclass = (j % 3 == 2) ? cellStyleColumn : '';
-            var optag = '<b>', cltag = '</b>';
+            var optag = '', cltag = '';
+            optag = '<span style="font-size: 0.9em;">';
+            cltag = '</span>';
             if (data[i][j] != this.data[i][j]) {
                 if (data[i][j].length > 1) {
-                    optag = '<span style="font-size: 0.75em;">';
+                    optag = '<span style="font-size: 0.5em;">';
                     cltag = '</span>';
                 } else {
-                    optag = '';
-                    cltag = '';
+                    optag = '<b>';
+                    cltag = '</b>';
                 }
             }
+	    if (data[i][j] == 0) {
+		optag = '<span style="display: none;">';
+		cltag = '</span>';
+	    }
             res += '<td style="' + cellStyleDefault + rclass + cclass + '">'
                     + optag + data[i][j] + cltag + '</td>';
         }
